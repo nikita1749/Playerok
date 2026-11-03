@@ -1,105 +1,106 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#171820">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Playerok</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#171820;color:#fff;font-family:Arial,sans-serif;padding-bottom:85px}
-header{padding:20px 16px 14px;background:#20212b}
-.logo{font-size:27px;font-weight:900;letter-spacing:-1px}
-.logo span{color:#a8ef57}
-.subtitle{color:#9294a3;font-size:12px;margin-top:4px}
-.search{margin-top:18px;background:#30313d;border-radius:13px;padding:14px;color:#a5a6b1}
-h2{font-size:19px;margin:24px 16px 14px}
-.categories{display:flex;gap:10px;overflow-x:auto;padding:0 16px}
-.category{min-width:105px;background:#252631;border-radius:14px;padding:15px 10px;text-align:center;font-size:13px}
-.category .emoji{font-size:27px;margin-bottom:9px}
-.banner{margin:20px 16px;background:linear-gradient(110deg,#35452b,#647c39);border-radius:17px;padding:20px}
+body{margin:0;background:#10131c;color:#fff;font-family:Arial,sans-serif;padding-bottom:82px}
+header{background:#191e2b;padding:16px}
+.logo{font-size:27px;font-weight:900;letter-spacing:-1px;color:#fff}
+.logo span{color:#ffbd42}
+.search{margin-top:15px;background:#292f40;border-radius:12px;padding:13px;color:#aab0c0;display:flex;gap:10px}
+.search input{background:none;border:0;outline:none;color:white;width:100%;font-size:15px}
+.container{padding:16px}
+h2{font-size:19px;margin:22px 0 13px}
+.categories{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.category{background:#1b2130;border-radius:12px;padding:13px 5px;text-align:center;font-size:11px;color:#dce0ea}
+.category .emoji{font-size:25px;display:block;margin-bottom:8px}
+.banner{margin-top:18px;padding:20px;border-radius:15px;background:linear-gradient(120deg,#5636a8,#252b70);min-height:120px}
 .banner strong{font-size:20px}
-.banner p{font-size:13px;color:#e0edce}
-.banner button{border:0;border-radius:9px;padding:11px 16px;background:#b5f36a;font-weight:bold}
-.products{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 12px}
-.product{background:#252631;border-radius:14px;overflow:hidden}
-.product-image{height:115px;background:linear-gradient(135deg,#41465a,#252631);display:flex;align-items:center;justify-content:center;font-size:45px}
+.banner p{font-size:12px;color:#ddd;margin-bottom:0}
+.filters{display:flex;gap:8px;overflow:auto}
+.filter{white-space:nowrap;background:#252b3a;border-radius:20px;padding:9px 14px;font-size:12px;color:#dce0ea}
+.filter.active{background:#ffbd42;color:#171717;font-weight:bold}
+.products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.product{background:#1b2130;border-radius:13px;overflow:hidden;min-width:0}
+.product-img{height:125px;display:flex;align-items:center;justify-content:center;font-size:55px;background:linear-gradient(135deg,#303b62,#171e35)}
 .product-info{padding:11px}
-.product-title{font-size:13px;line-height:1.4;min-height:36px}
-.price{font-size:17px;font-weight:bold;margin-top:10px;color:#b5f36a}
-.seller{font-size:11px;color:#9698a6;margin-top:7px}
-nav{position:fixed;bottom:0;left:0;right:0;background:#20212b;border-top:1px solid #343541;display:flex;justify-content:space-around;padding:12px 4px calc(12px + env(safe-area-inset-bottom))}
-nav button{background:none;border:0;color:#a5a6b1;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:5px}
-nav button span{font-size:21px}
-nav button.active{color:#b5f36a}
+.product-name{font-size:13px;line-height:1.4;height:36px;overflow:hidden}
+.price{font-size:17px;font-weight:bold;margin-top:10px;color:#ffca55}
+.seller{font-size:11px;color:#9da6b9;margin-top:9px}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#191e2b;border-top:1px solid #303646;display:flex;justify-content:space-around;padding:12px 3px calc(12px + env(safe-area-inset-bottom));z-index:10}
+.nav{color:#a3aabc;text-align:center;font-size:10px;min-width:55px}
+.nav span{display:block;font-size:21px;margin-bottom:4px}
+.nav.active{color:#ffbd42}
 </style>
 </head>
 <body>
 <header>
-  <div class="logo">Player<span>ok</span></div>
-  <div class="subtitle">Игровой маркетплейс</div>
-  <div class="search">🔎 Поиск товаров и игр</div>
+  <div class="logo">player<span>ok</span></div>
+  <div class="search">🔎 <input id="search" placeholder="Найти товар или игру"></div>
 </header>
-
-<h2>Категории</h2>
-<div class="categories">
-  <div class="category"><div class="emoji">🎮</div>Игры</div>
-  <div class="category"><div class="emoji">💎</div>Валюта</div>
-  <div class="category"><div class="emoji">👤</div>Аккаунты</div>
-  <div class="category"><div class="emoji">🧩</div>Предметы</div>
-  <div class="category"><div class="emoji">⚡</div>Услуги</div>
-</div>
-
-<div class="banner">
-  <strong>Покупай и продавай!</strong>
-  <p>Игровые товары и услуги в одном месте</p>
-  <button onclick="alert('Раздел продажи скоро появится')">Продать товар</button>
-</div>
-
-<h2>Популярные предложения</h2>
-<div class="products">
-  <div class="product">
-    <div class="product-image">🎯</div>
-    <div class="product-info">
-      <div class="product-title">Игровой аккаунт</div>
-      <div class="price">1 500 ₽</div>
-      <div class="seller">Продавец • Новый товар</div>
+<main class="container">
+  <h2>Категории</h2>
+  <div class="categories">
+    <div class="category"><span class="emoji">🎮</span>Игры</div>
+    <div class="category"><span class="emoji">💎</span>Валюта</div>
+    <div class="category"><span class="emoji">🧑‍💻</span>Аккаунты</div>
+    <div class="category"><span class="emoji">⚔️</span>Предметы</div>
+    <div class="category"><span class="emoji">🎁</span>Подарки</div>
+    <div class="category"><span class="emoji">🚀</span>Услуги</div>
+    <div class="category"><span class="emoji">🎨</span>Скины</div>
+    <div class="category"><span class="emoji">✨</span>Другое</div>
+  </div>
+  <div class="banner">
+    <strong>Добро пожаловать!</strong>
+    <p>Покупай и продавай игровые товары в одном месте</p>
+  </div>
+  <h2>Популярные товары</h2>
+  <div class="filters">
+    <div class="filter active">Все</div>
+    <div class="filter">Игры</div>
+    <div class="filter">Аккаунты</div>
+    <div class="filter">Валюта</div>
+  </div>
+  <div class="products" id="products" style="margin-top:14px">
+    <div class="product">
+      <div class="product-img">🎮</div>
+      <div class="product-info"><div class="product-name">Игровой аккаунт — пример</div><div class="price">499 ₽</div><div class="seller">⭐ 5.0 · Продавец</div></div>
+    </div>
+    <div class="product">
+      <div class="product-img">💎</div>
+      <div class="product-info"><div class="product-name">Игровая валюта — пример</div><div class="price">199 ₽</div><div class="seller">⭐ 4.9 · Продавец</div></div>
+    </div>
+    <div class="product">
+      <div class="product-img">⚔️</div>
+      <div class="product-info"><div class="product-name">Редкий игровой предмет</div><div class="price">350 ₽</div><div class="seller">⭐ 5.0 · Продавец</div></div>
+    </div>
+    <div class="product">
+      <div class="product-img">🚀</div>
+      <div class="product-info"><div class="product-name">Игровая услуга — пример</div><div class="price">150 ₽</div><div class="seller">⭐ 4.8 · Продавец</div></div>
     </div>
   </div>
-  <div class="product">
-    <div class="product-image">💎</div>
-    <div class="product-info">
-      <div class="product-title">Игровая валюта</div>
-      <div class="price">350 ₽</div>
-      <div class="seller">Продавец • Быстрая доставка</div>
-    </div>
-  </div>
-  <div class="product">
-    <div class="product-image">⚔️</div>
-    <div class="product-info">
-      <div class="product-title">Редкий игровой предмет</div>
-      <div class="price">790 ₽</div>
-      <div class="seller">Продавец • В наличии</div>
-    </div>
-  </div>
-  <div class="product">
-    <div class="product-image">🚀</div>
-    <div class="product-info">
-      <div class="product-title">Прокачка игрового профиля</div>
-      <div class="price">500 ₽</div>
-      <div class="seller">Продавец • Услуга</div>
-    </div>
-  </div>
-</div>
-
-<nav>
-  <button class="active"><span>🏠</span>Главная</button>
-  <button><span>🔎</span>Каталог</button>
-  <button><span>➕</span>Продать</button>
-  <button><span>📦</span>Покупки</button>
-  <button><span>👤</span>Профиль</button>
+</main>
+<nav class="bottom">
+  <div class="nav active"><span>⌂</span>Главная</div>
+  <div class="nav"><span>♡</span>Избранное</div>
+  <div class="nav"><span>＋</span>Продать</div>
+  <div class="nav"><span>✉</span>Чаты</div>
+  <div class="nav"><span>♙</span>Профиль</div>
 </nav>
-<script>if(window.Telegram&&window.Telegram.WebApp){const app=window.Telegram.WebApp;app.ready();app.expand();}</script>
+<script>
+const tg=window.Telegram?.WebApp;
+if(tg){tg.ready();tg.expand();}
+document.getElementById('search').addEventListener('input',function(){
+ const q=this.value.toLowerCase();
+ document.querySelectorAll('.product').forEach(p=>{
+  p.style.display=p.innerText.toLowerCase().includes(q)?'block':'none';
+ });
+});
+</script>
 </body>
 </html>
