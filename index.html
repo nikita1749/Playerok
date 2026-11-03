@@ -3,102 +3,156 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#17191f">
 <title>Playerok</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
+:root{--bg:#17191f;--panel:#20232b;--panel2:#292d37;--text:#f5f6f8;--muted:#9299a8;--accent:#f5bd45;--line:#30343e}
 *{box-sizing:border-box}
-body{margin:0;background:#10131c;color:#fff;font-family:Arial,sans-serif;padding-bottom:82px}
-header{background:#191e2b;padding:16px}
-.logo{font-size:27px;font-weight:900;letter-spacing:-1px;color:#fff}
-.logo span{color:#ffbd42}
-.search{margin-top:15px;background:#292f40;border-radius:12px;padding:13px;color:#aab0c0;display:flex;gap:10px}
-.search input{background:none;border:0;outline:none;color:white;width:100%;font-size:15px}
-.container{padding:16px}
-h2{font-size:19px;margin:22px 0 13px}
-.categories{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
-.category{background:#1b2130;border-radius:12px;padding:13px 5px;text-align:center;font-size:11px;color:#dce0ea}
-.category .emoji{font-size:25px;display:block;margin-bottom:8px}
-.banner{margin-top:18px;padding:20px;border-radius:15px;background:linear-gradient(120deg,#5636a8,#252b70);min-height:120px}
-.banner strong{font-size:20px}
-.banner p{font-size:12px;color:#ddd;margin-bottom:0}
-.filters{display:flex;gap:8px;overflow:auto}
-.filter{white-space:nowrap;background:#252b3a;border-radius:20px;padding:9px 14px;font-size:12px;color:#dce0ea}
-.filter.active{background:#ffbd42;color:#171717;font-weight:bold}
-.products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.product{background:#1b2130;border-radius:13px;overflow:hidden;min-width:0}
-.product-img{height:125px;display:flex;align-items:center;justify-content:center;font-size:55px;background:linear-gradient(135deg,#303b62,#171e35)}
-.product-info{padding:11px}
-.product-name{font-size:13px;line-height:1.4;height:36px;overflow:hidden}
-.price{font-size:17px;font-weight:bold;margin-top:10px;color:#ffca55}
-.seller{font-size:11px;color:#9da6b9;margin-top:9px}
-.bottom{position:fixed;bottom:0;left:0;right:0;background:#191e2b;border-top:1px solid #303646;display:flex;justify-content:space-around;padding:12px 3px calc(12px + env(safe-area-inset-bottom));z-index:10}
-.nav{color:#a3aabc;text-align:center;font-size:10px;min-width:55px}
-.nav span{display:block;font-size:21px;margin-bottom:4px}
-.nav.active{color:#ffbd42}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif;padding-bottom:88px}
+button,input{font:inherit}
+.top{padding:15px 16px 13px;background:#1d2028;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.topline{display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:25px;font-weight:850;letter-spacing:-1.4px;color:#fff}
+.logo span{color:var(--accent)}
+.top-actions{display:flex;gap:17px;font-size:21px;color:#dfe2e9}
+.search{margin-top:15px;height:46px;border-radius:12px;background:#2b2f39;display:flex;align-items:center;padding:0 13px;gap:10px}
+.search-icon{font-size:19px;color:#aab0bd}
+.search input{border:0;outline:0;background:none;color:#fff;width:100%;font-size:14px}
+.search input::placeholder{color:#9299a8}
+.content{padding:0 15px}
+.promo{margin-top:16px;border-radius:15px;padding:19px;background:linear-gradient(110deg,#343c65,#252b48);position:relative;overflow:hidden}
+.promo:after{content:"";position:absolute;width:130px;height:130px;border-radius:50%;background:#ffffff0d;right:-30px;top:-45px}
+.promo small{color:#d1d6e7;font-size:12px}
+.promo h2{font-size:20px;line-height:1.25;margin:8px 0 6px;max-width:230px}
+.promo p{color:#c0c6d8;font-size:12px;margin:0}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin:23px 0 13px}
+.section-head h3{font-size:18px;margin:0;font-weight:700}
+.more{font-size:12px;color:var(--accent)}
+.categories{display:flex;gap:10px;overflow-x:auto;padding-bottom:5px;scrollbar-width:none}
+.categories::-webkit-scrollbar,.chips::-webkit-scrollbar{display:none}
+.cat{flex:0 0 76px;height:83px;border-radius:12px;background:var(--panel);border:1px solid #2b303a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;color:#e6e8ed;font-size:11px}
+.cat-icon{font-size:23px}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+.chip{white-space:nowrap;background:#252933;border:1px solid #343946;color:#d7dae1;padding:9px 14px;border-radius:9px;font-size:12px}
+.chip.active{background:#f5bd45;border-color:#f5bd45;color:#242018;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.card{min-width:0;background:var(--panel);border:1px solid #2b303a;border-radius:12px;overflow:hidden}
+.photo{height:145px;background:linear-gradient(145deg,#303c60,#1d263d);display:flex;align-items:center;justify-content:center;position:relative}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.photo .placeholder{font-size:42px;opacity:.85}
+.favorite{position:absolute;right:9px;top:9px;width:30px;height:30px;border-radius:50%;background:#151922bb;display:grid;place-items:center;font-size:17px}
+.details{padding:10px}
+.product-title{font-size:12px;line-height:1.45;height:35px;overflow:hidden;color:#f0f1f4}
+.price{font-size:17px;font-weight:750;margin-top:9px}
+.seller{display:flex;align-items:center;gap:6px;margin-top:10px;color:var(--muted);font-size:10px}
+.avatar{width:19px;height:19px;border-radius:50%;background:#414b68;display:grid;place-items:center;color:white;font-size:9px}
+.rating{color:#f5bd45}
+.bottom{position:fixed;bottom:0;left:0;right:0;height:68px;padding-bottom:env(safe-area-inset-bottom);background:#1d2028;border-top:1px solid var(--line);display:flex;justify-content:space-around;align-items:center;z-index:8}
+.nav{width:20%;text-align:center;color:#9299a8;font-size:10px}
+.nav .ico{font-size:21px;margin-bottom:4px}
+.nav.active{color:var(--accent)}
+.empty{display:none;color:var(--muted);font-size:13px;text-align:center;padding:25px}
+@media(min-width:600px){.content{max-width:760px;margin:auto}.topline,.search{max-width:760px;margin-left:auto;margin-right:auto}.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 </style>
 </head>
 <body>
-<header>
+<header class="top">
+ <div class="topline">
   <div class="logo">player<span>ok</span></div>
-  <div class="search">🔎 <input id="search" placeholder="Найти товар или игру"></div>
+  <div class="top-actions"><span>♡</span><span>♙</span></div>
+ </div>
+ <label class="search">
+  <span class="search-icon">⌕</span>
+  <input id="search" placeholder="Поиск товаров и категорий">
+ </label>
 </header>
-<main class="container">
-  <h2>Категории</h2>
-  <div class="categories">
-    <div class="category"><span class="emoji">🎮</span>Игры</div>
-    <div class="category"><span class="emoji">💎</span>Валюта</div>
-    <div class="category"><span class="emoji">🧑‍💻</span>Аккаунты</div>
-    <div class="category"><span class="emoji">⚔️</span>Предметы</div>
-    <div class="category"><span class="emoji">🎁</span>Подарки</div>
-    <div class="category"><span class="emoji">🚀</span>Услуги</div>
-    <div class="category"><span class="emoji">🎨</span>Скины</div>
-    <div class="category"><span class="emoji">✨</span>Другое</div>
-  </div>
-  <div class="banner">
-    <strong>Добро пожаловать!</strong>
-    <p>Покупай и продавай игровые товары в одном месте</p>
-  </div>
-  <h2>Популярные товары</h2>
-  <div class="filters">
-    <div class="filter active">Все</div>
-    <div class="filter">Игры</div>
-    <div class="filter">Аккаунты</div>
-    <div class="filter">Валюта</div>
-  </div>
-  <div class="products" id="products" style="margin-top:14px">
-    <div class="product">
-      <div class="product-img">🎮</div>
-      <div class="product-info"><div class="product-name">Игровой аккаунт — пример</div><div class="price">499 ₽</div><div class="seller">⭐ 5.0 · Продавец</div></div>
-    </div>
-    <div class="product">
-      <div class="product-img">💎</div>
-      <div class="product-info"><div class="product-name">Игровая валюта — пример</div><div class="price">199 ₽</div><div class="seller">⭐ 4.9 · Продавец</div></div>
-    </div>
-    <div class="product">
-      <div class="product-img">⚔️</div>
-      <div class="product-info"><div class="product-name">Редкий игровой предмет</div><div class="price">350 ₽</div><div class="seller">⭐ 5.0 · Продавец</div></div>
-    </div>
-    <div class="product">
-      <div class="product-img">🚀</div>
-      <div class="product-info"><div class="product-name">Игровая услуга — пример</div><div class="price">150 ₽</div><div class="seller">⭐ 4.8 · Продавец</div></div>
-    </div>
-  </div>
+<main class="content">
+ <section class="promo">
+  <small>МАРКЕТПЛЕЙС ИГРОВЫХ ТОВАРОВ</small>
+  <h2>Находи то, что ищешь</h2>
+  <p>Игры · Аккаунты · Предметы · Услуги</p>
+ </section>
+
+ <div class="section-head"><h3>Категории</h3><span class="more">Все категории →</span></div>
+ <div class="categories">
+  <div class="cat"><span class="cat-icon">🎮</span>Игры</div>
+  <div class="cat"><span class="cat-icon">👤</span>Аккаунты</div>
+  <div class="cat"><span class="cat-icon">💎</span>Валюта</div>
+  <div class="cat"><span class="cat-icon">🗡️</span>Предметы</div>
+  <div class="cat"><span class="cat-icon">⚡</span>Услуги</div>
+  <div class="cat"><span class="cat-icon">🎁</span>Другое</div>
+ </div>
+
+ <div class="section-head"><h3>Популярные предложения</h3><span class="more">Все →</span></div>
+ <div class="chips">
+  <button class="chip active" data-filter="all">Все</button>
+  <button class="chip" data-filter="games">Игры</button>
+  <button class="chip" data-filter="accounts">Аккаунты</button>
+  <button class="chip" data-filter="currency">Валюта</button>
+ </div>
+
+ <div class="grid" id="grid" style="margin-top:13px">
+  <article class="card" data-category="games">
+   <div class="photo"><span class="placeholder">🎮</span><span class="favorite">♡</span></div>
+   <div class="details"><div class="product-title">Игровой товар — демонстрационное объявление</div><div class="price">499 ₽</div><div class="seller"><span class="avatar">P</span><span class="rating">★ 5.0</span> Продавец</div></div>
+  </article>
+  <article class="card" data-category="currency">
+   <div class="photo"><span class="placeholder">💎</span><span class="favorite">♡</span></div>
+   <div class="details"><div class="product-title">Игровая валюта — демонстрационное объявление</div><div class="price">199 ₽</div><div class="seller"><span class="avatar">G</span><span class="rating">★ 4.9</span> Продавец</div></div>
+  </article>
+  <article class="card" data-category="accounts">
+   <div class="photo"><span class="placeholder">👤</span><span class="favorite">♡</span></div>
+   <div class="details"><div class="product-title">Аккаунт — демонстрационное объявление</div><div class="price">850 ₽</div><div class="seller"><span class="avatar">A</span><span class="rating">★ 5.0</span> Продавец</div></div>
+  </article>
+  <article class="card" data-category="games">
+   <div class="photo"><span class="placeholder">⚔️</span><span class="favorite">♡</span></div>
+   <div class="details"><div class="product-title">Редкий игровой предмет — пример</div><div class="price">350 ₽</div><div class="seller"><span class="avatar">M</span><span class="rating">★ 4.8</span> Продавец</div></div>
+  </article>
+ </div>
+ <div class="empty" id="empty">Ничего не найдено</div>
 </main>
 <nav class="bottom">
-  <div class="nav active"><span>⌂</span>Главная</div>
-  <div class="nav"><span>♡</span>Избранное</div>
-  <div class="nav"><span>＋</span>Продать</div>
-  <div class="nav"><span>✉</span>Чаты</div>
-  <div class="nav"><span>♙</span>Профиль</div>
+ <div class="nav active"><div class="ico">⌂</div>Главная</div>
+ <div class="nav"><div class="ico">♡</div>Избранное</div>
+ <div class="nav"><div class="ico">＋</div>Продать</div>
+ <div class="nav"><div class="ico">▤</div>Чаты</div>
+ <div class="nav"><div class="ico">♙</div>Профиль</div>
 </nav>
 <script>
 const tg=window.Telegram?.WebApp;
 if(tg){tg.ready();tg.expand();}
-document.getElementById('search').addEventListener('input',function(){
- const q=this.value.toLowerCase();
- document.querySelectorAll('.product').forEach(p=>{
-  p.style.display=p.innerText.toLowerCase().includes(q)?'block':'none';
+const search=document.getElementById('search');
+const cards=[...document.querySelectorAll('.card')];
+let category='all';
+function update(){
+ const q=search.value.toLowerCase();
+ let shown=0;
+ cards.forEach(card=>{
+  const matchesText=card.innerText.toLowerCase().includes(q);
+  const matchesCategory=category==='all'||card.dataset.category===category;
+  card.style.display=matchesText&&matchesCategory?'block':'none';
+  if(matchesText&&matchesCategory)shown++;
+ });
+ document.getElementById('empty').style.display=shown?'none':'block';
+}
+search.addEventListener('input',update);
+document.querySelectorAll('.chip').forEach(chip=>{
+ chip.addEventListener('click',()=>{
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  chip.classList.add('active');
+  category=chip.dataset.filter;
+  update();
+ });
+});
+document.querySelectorAll('.favorite').forEach(btn=>{
+ btn.addEventListener('click',()=>btn.textContent=btn.textContent==='♡'?'♥':'♡');
+});
+document.querySelectorAll('.nav').forEach(item=>{
+ item.addEventListener('click',()=>{
+  document.querySelectorAll('.nav').forEach(n=>n.classList.remove('active'));
+  item.classList.add('active');
  });
 });
 </script>
